@@ -5,39 +5,40 @@
 ##### =============================================================
 
 StartFromScratch=1 # Delete all files in ../VoxelisedSimulation before starting your run. This can be useful when running a full XCAT phantom, to save space.
-RunGATE=1 # Set to 1 to run the GATE script. This script can be run with or without the main (long simulated time) GATE simulation.
+RunGATE=1 # Set to 1 to run the GATE script. This script can be run with or without the main (long simulation time) GATE simulation (set below).
 RunSim=1 # Run main GATE simulation? If you set this to zero (but set RunGATE = 1) the code will create the phantoms & run a short GATE simulation to create the attenuation map, but it won't run the main GATE simulation. This is useful if you want to mess with reconstruction parameters for previously simulated phantoms, but you don't want to wait hours for a new simulation to run.
-RunUnlist=1 # Unlist ROOT files? This only needs to be done once, unless you switch XCAT sections or phantom type.
-RunRecon=1	# Run data corrections and recostructions. You need to have run GATE first.
+RunUnlist=1 # Unlist ROOT files? This only needs to be done once per QA phantom or XCAT section, unless you switch XCAT sections or phantom type.
+RunRecon=1	# Run data corrections and recostructions. You need to have run a simulation and unlisting first.
 
 phantom_type=2 # Generate phantom from: 0 = Simple STIR par file for cylinders (ex: FOV cylinder for sensitivity calculation), 1 = QA Phantom generation (NEMA, etc.), 2 =  XCAT phantom generation
 QT=0	 # Enable QT visualization? To check geometry. To visualize: /vis/disable must be commented out in the first line of the GATE main macro.
-StartTime=0  # Start time (s) in GATE time
-EndTime=60 # If ActivityScaleFactor=17, 1 s simulaton takes ~5 in.
-TimeSlice=1 # Duration for a single time slice. This should divide evenly into StartTime-EndTime.
+StartTime=0  # Start time(s) in GATE time
+EndTime=60 # For a good CPU, 1 s simulaton takes on the order of 5 min.
+TimeSlice=1 # Duration for a single time slice. This should divide evenly into (StartTime-EndTime).
 ActivityScaleFactor=21 # Multiply activity in phantom by this scale factor. To double the number of counts in the sinogram, you can either double this scalar, or else double the acquisition time. For equal counts, you will have more randoms with a higher ACtivityScaleFactor.
-SaveNiftiFilesToDataset=0 # Set to 0 to only copy interfiles (and possibly ROOT files) to the Phantom Specific Dataset directory. To copy Nifti versions of the interfiles (that one can opened in Slicer), set to 1.
-SaveIntermediateFilesToDataset=0 # Save intermediate files (such as phantom created attenuation files) to dataset. Is useful for debugging.
-SaveROOTfilesToDataset=1 # Save ROOT files to DatasetDir also?
+SaveNiftiFilesToDataset=0 # Set to 0 to only copy interfiles (and possibly ROOT files) to the Phantom Specific Dataset directory. To also copy Nifti versions of the interfiles (that one can opened in 3D Slicer), set to 1.
+SaveIntermediateFilesToDataset=0 # Save intermediate files (used in reconstructions, etc.) to dataset. This is useful for debugging.
+SaveROOTfilesToDataset=1 # Save ROOT files to dataset? ROOT files can be large, so only save them if you need them.
 DatasetDir="/home/peter/dataset3" # Dataset directory. Files are saved in phantom-specific folders in this directory.
 
 ## ---------------------
 ## QA phantom parameters
 ## ---------------------
 QAType="NEMA" # Set to: "NEMA", "Radial", "Axial", "Pinwheel", "SquareStraight", "SquareRotated", or "AttenCheck" --> PhantomFilenameStem=Phantom${QAType}
-PhantomSpecificQAFolder=QA-testing # Name of subfolder in DatasetDir to which all output files are saved. Therefore, each phantom has it's own data directory. This directory is created, if it doesn't exist already.
+PhantomSpecificQAFolder=QA-testing # Name of subfolder in DatasetDir to which all QA output files are saved (if phantom_type=1). Therefore, each phantom has it's own data directory. This directory is created, if it doesn't exist already.
 
 
 ## -------------------------------------------------------
 ## XCAT parameters (can ignore if not using XCAT phantoms)
 ## -------------------------------------------------------
-# Notes: 
+# Notes:
 #	-An average-sized patient (BMI=28) is: male_pt141. This is useful for determining the average activity per section.
 #	-The most rotund patient is likely: male_pt184. This is useful to know for setting your voxelized volume size. For this patient:
 #		-the largest torso width is approx. 43 cm in diameter.
 #		-the largest distance across, when including the arms, is approx. 74 cm.
 
 # PhantomFilenameStem is the beginning of .nrb files (each patient has a specific .nrb file which, when combined with a .par file, produces the phantom.) If not using XCAT, this is set automatically.
+
 #PhantomFilenameStem="male_pt141" # This is an average phantom
 #PhantomFilenameStem="male_pt168" # This is the tallest phantom 
 #PhantomFilenameStem="male_pt184" # This is the most corpulent phantom.

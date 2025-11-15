@@ -1,0 +1,11 @@
+fbp3drpparameters :=
+input file := ${InputSinogram}
+output filename prefix := FBP3D_${SectionNum}
+; back projector that could be used (defaults to interpolating backprojector)
+;Back projector type:= Parallelproj
+;    Projector Pair Using Parallelproj Parameters:=
+;      verbosity := 1
+;    End Projector Pair Using Parallelproj Parameters:=
+
+end := 
+

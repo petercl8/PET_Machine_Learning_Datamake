@@ -1,0 +1,39 @@
+## AUTHOR: Elise Emond
+## AUTHOR: Ludovica Brusaferri
+## Copyright (C) 2018-2019 University College London
+## Licensed under the Apache License, Version 2.0
+
+## ENABLE UI
+/vis/enable
+
+## VISUALISE
+/control/execute GATESubMacros/visu.mac
+
+# MATERIALS
+/gate/geometry/setMaterialDatabase GATESubMacros/GateMaterials.db
+
+# WORLD and SCANNER GEOMETRY
+/control/execute GATESubMacros/geometry.mac
+
+## VOXELISED PHANTOM
+/control/execute GATESubMacros/PhantomAttenuation.mac 
+
+## PHYSICS INTERACTIONS
+/control/execute GATESubMacros/physics.mac
+
+## PHYSICS INITIALISE
+/gate/run/initialize
+
+## SOURCE
+/control/execute GATESubMacros/PhantomActivity.mac
+
+## DISABLE OUTPUT
+/gate/output/allowNoOutput
+
+## ACQUISITION TIME (short for visualisation purpose)
+/gate/application/setTimeSlice   0.01 s
+/gate/application/setTimeStart   {StartTime} ms
+/gate/application/setTimeStop    {EndTime} s
+
+/gate/application/startDAQ
+

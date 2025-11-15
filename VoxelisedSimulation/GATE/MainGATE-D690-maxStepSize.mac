@@ -1,0 +1,385 @@
+## AUTHOR: Ludovica Brusaferri
+## AUTHOR: Elise Emond
+## Copyright (C) 2018-2019 University College London<br />
+## Licensed under the Apache License, Version 2.0 (the "License");
+
+
+## NO UI
+/vis/disable
+
+#######################
+## MATERIAL DATABASE ##
+#######################
+/gate/geometry/setMaterialDatabase GATE/GateMaterials.db
+
+
+
+###############################
+# WORLD and SCANNER GEOMETRY ##
+###############################
+## Geometry for Ge Discovery 690 Scanner, given by:
+## Bettinardi, V., et. al., (2011). Physical Performance of the new hybrid PETCT Discovery-690. Medical Physics, 38(10), 5394–5411. https://doi.org/10.1118/1.3635220
+
+
+#    WORLD
+/gate/world/geometry/setXLength 100. cm
+/gate/world/geometry/setYLength 100. cm
+/gate/world/geometry/setZLength 50. cm
+/gate/world/vis/setVisible                     false
+
+#	CYLINDRICAL
+/gate/world/daughters/name                    cylindricalPET
+/gate/world/daughters/insert                  cylinder
+/gate/cylindricalPET/placement/setTranslation 0.0 0.0 0.0 cm
+/gate/cylindricalPET/geometry/setRmax         43.1 cm
+/gate/cylindricalPET/geometry/setRmin         40.5 cm
+/gate/cylindricalPET/geometry/setHeight       15.796 cm
+/gate/cylindricalPET/setMaterial              Air
+/gate/cylindricalPET/placement/setRotationAxis  0 0 1
+/gate/cylindricalPET/placement/setRotationAngle -90 deg
+/gate/cylindricalPET/vis/forceWireframe
+/gate/cylindricalPET/vis/setColor             white
+/gate/cylindricalPET/vis/setVisible           false
+
+#	RSECTOR 
+/gate/cylindricalPET/daughters/name           rsector
+/gate/cylindricalPET/daughters/insert         box
+/gate/rsector/placement/setTranslation           41.76 0.0 0.0 cm
+/gate/rsector/geometry/setXLength                25  mm
+/gate/rsector/geometry/setYLength                75.6 mm
+/gate/rsector/geometry/setZLength                156.96 mm
+/gate/rsector/setMaterial                        Air
+/gate/rsector/vis/setVisible                     false
+
+#  END-SHIELDING
+/gate/rsector/daughters/name endshielding
+/gate/rsector/daughters/insert box
+/gate/endshielding/placement/setTranslation 0.0 0.0 0.0 cm
+/gate/endshielding/geometry/setXLength 25 mm
+/gate/endshielding/geometry/setYLength 75.6 mm
+/gate/endshielding/geometry/setZLength 1.0 mm
+/gate/endshielding/setMaterial Lead
+/gate/endshielding/repeaters/insert cubicArray
+/gate/endshielding/cubicArray/setRepeatNumberX 1
+/gate/endshielding/cubicArray/setRepeatNumberY 1
+/gate/endshielding/cubicArray/setRepeatNumberZ 2
+/gate/endshielding/cubicArray/setRepeatVector 0.0 0.0 157.96 mm  # +1mm in z
+/gate/endshielding/vis/setColor blue
+/gate/endshielding/vis/setVisible false
+
+#	MODULE (Bucket)
+/gate/rsector/daughters/name                     module
+/gate/rsector/daughters/insert                   box
+/gate/module/placement/setTranslation          0 0.0 0.0 cm
+/gate/module/geometry/setXLength               25 mm
+/gate/module/geometry/setYLength               75.6 mm
+/gate/module/geometry/setZLength               156.96 mm
+/gate/module/setMaterial                       Air
+/gate/module/vis/setColor                      green
+/gate/module/vis/setVisible                    false
+
+#	SUBMODULE (Block)
+/gate/module/daughters/name                     submodule
+/gate/module/daughters/insert                   box
+/gate/submodule/placement/setTranslation          0 0.0 0.0 cm
+/gate/submodule/geometry/setXLength               25 mm
+/gate/submodule/geometry/setYLength               37.8 mm
+/gate/submodule/geometry/setZLength               39.24 mm
+/gate/submodule/setMaterial                       Air
+/gate/submodule/vis/setColor                      magenta
+/gate/submodule/vis/setVisible                    true
+
+#	C R Y S T A L (Crystal)
+/gate/submodule/daughters/name                    crystal
+/gate/submodule/daughters/insert                  box
+/gate/crystal/placement/setTranslation        0.0 0.0 0.0 cm
+/gate/crystal/geometry/setXLength             25 mm
+# Radian Crystal size (radXtalSize)
+/gate/crystal/geometry/setYLength             4.2 mm 
+/gate/crystal/geometry/setZLength             6.54 mm
+/gate/crystal/setMaterial                     LYSO
+/gate/crystal/vis/setColor                    red
+/gate/crystal/vis/setVisible 			   	  false
+
+#	R E P E A T    C R Y S T A L
+# Construct a block from crystals
+/gate/crystal/repeaters/insert                cubicArray
+/gate/crystal/cubicArray/setRepeatNumberX     1
+/gate/crystal/cubicArray/setRepeatNumberY     9 
+/gate/crystal/cubicArray/setRepeatNumberZ     6	
+/gate/crystal/cubicArray/setRepeatVector      0.0 4.2 6.54 mm
+
+#	R E P E A T    SUBMODULE
+# Construct a bucket from blocks
+/gate/submodule/repeaters/insert                  cubicArray
+/gate/submodule/cubicArray/setRepeatNumberX       1
+/gate/submodule/cubicArray/setRepeatNumberY       2
+/gate/submodule/cubicArray/setRepeatNumberZ       4
+/gate/submodule/cubicArray/setRepeatVector        0.0 37.8 39.24 mm
+
+#	R E P E A T    MODULE
+# Construct a "Plane" from buckets
+/gate/module/repeaters/insert                  cubicArray
+/gate/module/cubicArray/setRepeatNumberX       1
+/gate/module/cubicArray/setRepeatNumberY       1
+/gate/module/cubicArray/setRepeatNumberZ       1
+/gate/module/cubicArray/setRepeatVector        0.0 0.0 0.0 mm
+
+#	R E P E A T    RSECTOR
+/gate/rsector/repeaters/insert                   ring
+/gate/rsector/ring/setRepeatNumber            	32
+
+#	A T T A C H    S Y S T E M 
+/gate/systems/cylindricalPET/rsector/attach   	rsector
+/gate/systems/cylindricalPET/module/attach    	module
+/gate/systems/cylindricalPET/submodule/attach  	submodule
+/gate/systems/cylindricalPET/crystal/attach   	crystal
+
+#	A T T A C H    C R Y S T A L  SD
+/gate/crystal/attachCrystalSD
+/gate/systems/cylindricalPET/describe
+
+
+
+#########################
+## PHANTOM ATTENUATION ##
+#########################
+# VOXELIZED PHANTOM BASED ON THE XCAT PHANTOM
+/gate/world/daughters/name VoxPhantom
+
+# INSERT THE NAVIGATION ALGORITHM THE MOST APPROPRIATE TO YOUR SIMULATION
+/gate/world/daughters/insert ImageRegionalizedVolume
+
+# READ IMAGE (.h33 for Interfile, .mhd for MetaImage, .hdr for Analyze)
+/gate/VoxPhantom/geometry/setImage {AttenuationFilename}
+
+# INSERT THE TRANSLATOR THAT WILL CONVERT THE IMAGE FROM DIGITAL VALUES TO
+# MATERIAL INFORMATION
+# RANGE TRANSLATOR (label values)
+#/gate/VoxPhantom/geometry/setRangeToMaterialFile GATE/AttenuationConv-LAC_simplified_scaled.dat
+/gate/VoxPhantom/geometry/setRangeToMaterialFile GATE/AttenuationConv.dat
+
+# Load distance map (dmap)
+/gate/VoxPhantom/geometry/distanceMap {GateOutputFilesDirectory}/images/dmap.hdr
+
+# UNITS TO MATERIAL CONVERSION DESCRIPTOR (label or HU values)
+# These are given as arguements to the GATE main.
+/gate/VoxPhantom/placement/setTranslation {AttenuationTranslationX} {AttenuationTranslationY} {AttenuationTranslationZ} mm
+/gate/VoxPhantom/placement/setRotationAxis 1 0 0
+/gate/VoxPhantom/placement/setRotationAngle 0 deg
+#/gate/VoxPhantom/vis/forceWireframe
+#/gate/VoxPhantom/vis/setColor green
+/gate/VoxPhantom/attachPhantomSD
+
+## ACTORS
+# to get mu map (REQUIRES GATE > 8.2)
+/gate/actor/addActor MuMapActor getMuMap
+/gate/actor/getMuMap/attachTo VoxPhantom
+/gate/actor/getMuMap/save {GateOutputFilesDirectory}/images/Phantom{SimuId}.hdr
+/gate/actor/getMuMap/setVoxelSize {AttenuationVoxelSizeX} {AttenuationVoxelSizeY} {AttenuationVoxelSizeZ}  mm
+/gate/actor/getMuMap/setResolution {NumberOfVoxelsX} {NumberOfVoxelsY} {NumberOfVoxelsZ}
+/gate/actor/getMuMap/setEnergy 511 keV
+
+
+########################
+## PHYSICAL INTERACTIONS
+########################
+/gate/physics/addPhysicsList empenelope
+/gate/physics/processList Enabled
+/gate/physics/processList Initialized
+
+
+#########
+## CUTS##
+#########
+/gate/physics/Gamma/SetCutInRegion      crystal 1.0 cm
+/gate/physics/Electron/SetCutInRegion   crystal 1.0 cm
+/gate/physics/Positron/SetCutInRegion   crystal 1.0 cm
+#/gate/physics/Gamma/SetCutInRegion      phantom 0.1 mm
+#/gate/physics/Electron/SetCutInRegion   phantom 0.1 mm
+#/gate/physics/Positron/SetCutInRegion   phantom 0.1 mm
+/gate/physics/SetMaxStepSizeInRegion    VoxPhantom 0.01 mm
+/gate/physics/ActivateStepLimiter photon
+
+############################
+## INITIALISATION OF GATE ##
+############################
+/gate/run/initialize
+
+
+####################################
+## Visualization (Added by Peter) ##
+####################################
+/vis/open                     OGLIQt #OGLS # OGLIQt
+/vis/drawVolume
+
+/vis/viewer/flush
+/tracking/storeTrajectory    1
+/vis/scene/add/trajectories
+/vis/scene/endOfEventAction   accumulate # Default is 100, I guess.
+
+/vis/scene/add/hits
+
+/vis/scene/add/axes
+#/vis/scene/add/axes            0 0 0 500 mm
+#/vis/scene/add/text            10 0 0 cm  20 0 0   X
+#/vis/scene/add/text            0 10 0 cm  20 0 0   Y
+#/vis/scene/add/text            0 0 10 cm  20 0 0   Z
+
+##/vis/viewer/set/viewpointThetaPhi 90 -90
+##/vis/viewer/set/viewpointThetaPhi 20 35
+##/vis/viewer/panTo 0 0
+##/vis/viewer/zoom 50
+
+#/vis/viewer/set/auxiliaryEdge  true
+
+
+
+###############
+## DIGITISER ##
+###############
+
+## R E A D O U T
+## For details regarding readout, see: https://opengate.readthedocs.io/en/latest/digitizer_and_detector_modeling.html#readout
+/gate/digitizer/Singles/insert                        adder
+/gate/digitizer/Singles/insert                        readout
+/gate/digitizer/Singles/readout/setDepth              4
+
+## C R Y S T A L   B L U R R I N G 
+/gate/digitizer/Singles/insert                        blurring
+/gate/digitizer/Singles/blurring/setResolution        0.124           #checked
+/gate/digitizer/Singles/blurring/setEnergyOfReference 511. keV
+
+## E N E R G Y   T H R E S H O L D
+/gate/digitizer/Singles/insert                        thresholder
+/gate/digitizer/Singles/thresholder/setThreshold      425. keV
+/gate/digitizer/Singles/insert                        upholder
+/gate/digitizer/Singles/upholder/setUphold            650. keV
+
+## T I M I N G   R E S O L U T I O N
+/gate/digitizer/Singles/insert timeResolution 
+/gate/digitizer/Singles/timeResolution/setTimeResolution 384.76 ps #(timing resolution / sqrt(2)) - Fix to match the “coincidence time resolution” of 550 ps in STIR
+
+## C O I N C I D E N C E S
+/gate/digitizer/Coincidences/setInputName   Singles
+/gate/digitizer/Coincidences/setOffset   0. ns
+/gate/digitizer/Coincidences/setWindow   4.9 ns
+/gate/digitizer/Coincidences/minSectorDifference   5  ## GATE default=2. STIR does not unlist any Sector difference < 5
+
+## D E L A Y
+/gate/digitizer/name   Delayed
+/gate/digitizer/insert   coincidenceSorter
+/gate/digitizer/Delayed/setInputName   Singles
+/gate/digitizer/Delayed/setOffset   200. ns
+/gate/digitizer/Delayed/setWindow   4.9 ns
+/gate/digitizer/Delayed/minSectorDifference   5  ## GATE default=2. For this scanner, STIR does not unlist any Sector difference < 5. This value has been optimised to reduce the root file size
+
+
+
+########################
+## RADIOACTIVE SOURCE ##
+########################
+/gate/source/addSource SourcePhantom voxel
+/gate/source/SourcePhantom/reader/insert image
+
+# INSERT THE TRANSLATOR THAT WILL CONVERT THE IMAGE FROM DIGITAL VALUES TO
+# ACTIVITY VALUES
+/gate/source/SourcePhantom/imageReader/translator/insert linear
+/gate/source/SourcePhantom/imageReader/linearTranslator/setScale  1 Bq
+# READ IMAGE
+/gate/source/SourcePhantom/imageReader/readFile {ActivityFilename}
+
+# POSITION OF THE SOURCE (its default position is in the 1st quarter, so it has to be
+# shifted over half its dimensions in the negative direction on each axis)
+# These values are computed by `SubScripts/GetSourcePosition.sh`
+/gate/source/SourcePhantom/setPosition {SourcePositionX} {SourcePositionY} {SourcePositionZ} mm
+
+# CHARACTERIZATION OF THE SOURCE (no difference with an analytical source)
+/gate/source/SourcePhantom/setType backtoback
+/gate/source/SourcePhantom/gps/particle gamma
+/gate/source/SourcePhantom/setForcedUnstableFlag false
+/gate/source/SourcePhantom/setForcedHalfLife 6586.2 s
+/gate/source/SourcePhantom/gps/energytype Mono
+/gate/source/SourcePhantom/gps/monoenergy 511. keV
+/gate/source/SourcePhantom/gps/angtype iso
+#/gate/source/SourcePhantom/gps/confine NULL
+/gate/source/SourcePhantom/dump 1
+
+
+
+
+####################
+## ROOT LM OUTPUT ##
+####################
+## Output ROOT files
+## Save Singles and Coincidence Trees in their own files. Disable many aspects of Singles 
+
+/gate/output/tree/enable
+/gate/output/tree/addFileName {GateOutputFilesDirectory}/{ROOT_FILENAME_PREFIX}.root  ## be aware, GATE adds the Tree name e.g. {GateOutputFilesDirectory}/{ROOT_FILENAME_PREFIX}.Coincidences.root
+
+## S I N G L E S 
+# Please note, Singles output collection has been disabled as STIR is currently unable to
+# utilise the data in the estimation of the randoms events. In future, this may be addressed.
+
+#/gate/output/tree/addCollection Singles 
+
+## (disable all the non-required branches)
+/gate/output/tree/Singles/branches/sourceID/disable
+/gate/output/tree/Singles/branches/runID/disable
+/gate/output/tree/Singles/branches/eventID/disable
+/gate/output/tree/Singles/branches/sourcePosX/disable
+/gate/output/tree/Singles/branches/sourcePosY/disable
+/gate/output/tree/Singles/branches/sourcePosZ/disable
+/gate/output/tree/Singles/branches/globalPosX/disable
+/gate/output/tree/Singles/branches/globalPosY/disable
+/gate/output/tree/Singles/branches/globalPosZ/disable
+/gate/output/tree/Singles/branches/comptonPhantom/disable
+/gate/output/tree/Singles/branches/comptonCrystal/disable
+/gate/output/tree/Singles/branches/RayleighPhantom/disable
+/gate/output/tree/Singles/branches/RayleighCrystal/disable
+/gate/output/tree/Singles/branches/comptVolName/disable
+/gate/output/tree/Singles/branches/rotationAngle/disable
+/gate/output/tree/Singles/branches/axialPos/disable
+
+## C O I N C I D E N C E S
+/gate/output/tree/addCollection Coincidences
+
+## (disable all the non-required branches)
+/gate/output/tree/Coincidences/branches/runID/disable
+/gate/output/tree/Coincidences/branches/rotationAngle/disable
+/gate/output/tree/Coincidences/branches/axialPos/disable
+
+## D E L A Y E D
+/gate/output/tree/addCollection Delayed
+
+## S U M M A R Y   O U T P U T
+/gate/output/summary/enable
+/gate/output/summary/setFileName Output/digit_summary_{SimuId}.txt
+/gate/output/summary/addCollection Singles
+/gate/output/summary/addCollection Coincidences
+/gate/output/summary/addCollection Delayed	
+
+
+#############################
+## RANDOMS ENGINE AND SEED ##
+#############################
+# JamesRandom Ranlux64 MersenneTwister
+/gate/random/setEngineName JamesRandom
+#/gate/random/setEngineSeed default
+/gate/random/setEngineSeed auto
+#/gate/random/setEngineSeed 123456789
+#/gate/random/setEngineSeed default
+#/gate/random/resetEngineFrom fileName
+#/gate/random/verbose 1
+
+######################
+## ACQUISITION TIME ##
+######################
+/gate/application/setTimeSlice    {TimeSlice} s
+/gate/application/setTimeStart   {StartTime} s
+/gate/application/setTimeStop   {EndTime} s
+
+#########
+## RUN ##
+#########
+/gate/application/startDAQ

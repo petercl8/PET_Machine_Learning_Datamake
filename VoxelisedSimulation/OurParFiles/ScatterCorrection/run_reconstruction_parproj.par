@@ -1,0 +1,41 @@
+Reconstruction Parameters :=
+reconstruction type := OSMAPOSL
+OSMAPOSLParameters :=
+
+objective function type:= PoissonLogLikelihoodWithLinearModelForMeanAndProjData
+PoissonLogLikelihoodWithLinearModelForMeanAndProjData Parameters:=
+maximum absolute segment number to process := -1
+
+projector pair type := Parallelproj
+    Projector Pair Using Parallelproj Parameters:=
+    End Projector Pair Using Parallelproj Parameters:=
+
+;recompute sensitivity := 0
+;subset sensitivity filenames := scatter_subset_sens_%d.hv
+
+; reconstruct at large voxel size to save time
+zoom := 0.2 ; 0.2
+
+end PoissonLogLikelihoodWithLinearModelForMeanAndProjData Parameters:=
+
+; initial estimate := 
+enforce initial positivity condition:=1
+
+output filename prefix := scatter_activity_estimate
+number of subsets:= ${scatter_recon_num_subsets}
+number of subiterations:=${scatter_recon_num_subiterations}
+save estimates at subiteration intervals:= ${scatter_recon_num_subiterations}
+
+; smooth a bit as we use a down-sampled scanner (during the scatter estimation resolution can be low)
+post-filter type :=  Separable Gaussian
+Separable Gaussian Filter Parameters :=
+  x-dir filter FWHM (in mm):= 15
+  y-dir filter FWHM (in mm):= 15
+  z-dir filter FWHM (in mm):= 15
+END Separable Gaussian Filter Parameters :=
+;
+; Disable output
+;
+disable output := 0 ; 1
+End OSMAPOSLParameters:=
+End Reconstruction Parameters:=

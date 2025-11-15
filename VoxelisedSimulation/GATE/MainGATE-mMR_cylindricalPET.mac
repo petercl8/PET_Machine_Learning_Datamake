@@ -1,0 +1,362 @@
+## AUTHOR: Ludovica Brusaferri
+## AUTHOR: Elise Emond
+## Copyright (C) 2018-2019 University College London<br />
+## Licensed under the Apache License, Version 2.0 (the "License");
+
+
+## NO UI
+#/vis/disable
+
+#######################
+## MATERIAL DATABASE ##
+#######################
+/gate/geometry/setMaterialDatabase GATE/GateMaterials.db
+
+
+
+###############################
+# WORLD and SCANNER GEOMETRY ##
+###############################
+#    WORLD
+/gate/world/geometry/setXLength 80. cm
+/gate/world/geometry/setYLength 80. cm
+/gate/world/geometry/setZLength 50. cm
+/gate/world/vis/setVisible                     true
+
+
+#    cylindricalPET
+# This is a version of the Siemens mMR but without gaps, i.e. 9 crystals per rsector in transaxial direction as opposed to 8
+
+/gate/world/daughters/name            cylindricalPET
+/gate/world/daughters/insert          cylinder
+/gate/cylindricalPET/setMaterial                Air
+/gate/cylindricalPET/geometry/setRmax           348.0 mm
+/gate/cylindricalPET/geometry/setRmin           328.0 mm
+/gate/cylindricalPET/geometry/setHeight         265.0 mm
+/gate/cylindricalPET/vis/setVisible             0
+/gate/cylindricalPET/vis/setColor               white
+/gate/cylindricalPET/vis/forceWireframe
+
+#    rsector
+
+
+/gate/cylindricalPET/daughters/name             rsector
+/gate/cylindricalPET/daughters/insert           box
+/gate/rsector/placement/setTranslation  338.0 0.0 0.0 mm
+/gate/rsector/geometry/setXLength       20.0 mm
+/gate/rsector/geometry/setYLength       36.5625 mm
+/gate/rsector/geometry/setZLength       260. mm
+/gate/rsector/setMaterial               Air
+/gate/rsector/vis/setVisible            1
+/gate/rsector/vis/setColor              yellow
+/gate/rsector/vis/forceWireframe
+
+#	SUBMODULE (Block)
+/gate/rsector/daughters/name                     submodule
+/gate/rsector/daughters/insert                   box
+/gate/submodule/geometry/setXLength               20.0 mm
+/gate/submodule/geometry/setYLength               32.5 mm
+/gate/submodule/geometry/setZLength               32.5 mm
+/gate/submodule/setMaterial                       Air
+/gate/submodule/vis/setColor                      green
+/gate/submodule/vis/setVisible                    true
+
+
+
+#    C R Y S T A L
+
+/gate/submodule/daughters/name            crystal
+/gate/submodule/daughters/insert          box
+/gate/crystal/geometry/setXLength     20.0 mm
+/gate/crystal/geometry/setYLength     4.0625 mm
+/gate/crystal/geometry/setZLength     4.0625 mm
+/gate/crystal/setMaterial             LSO
+/gate/crystal/vis/setVisible          false
+/gate/crystal/vis/setColor            blue
+/gate/crystal/vis/forceSolid
+
+#    R E P E A T    C R Y S T A L
+
+
+/gate/crystal/repeaters/insert            cubicArray
+/gate/crystal/cubicArray/setRepeatNumberX 1
+/gate/crystal/cubicArray/setRepeatNumberY 9
+/gate/crystal/cubicArray/setRepeatNumberZ 8
+/gate/crystal/cubicArray/setRepeatVector 0.0 4.0625 4.0625 mm
+
+
+/gate/submodule/repeaters/insert       linear
+/gate/submodule/linear/setRepeatNumber 8
+/gate/submodule/linear/setRepeatVector 0.0 0.0 32.5 mm
+/gate/rsector/repeaters/insert       ring
+/gate/rsector/ring/setRepeatNumber   56
+
+/gate/systems/cylindricalPET/rsector/attach   rsector
+/gate/systems/cylindricalPET/crystal/attach crystal
+/gate/crystal/attachCrystalSD
+
+
+/gate/systems/cylindricalPET/describe
+
+
+#########################
+## PHANTOM ATTENUATION ##
+#########################
+# VOXELIZED PHANTOM BASED ON THE XCAT PHANTOM
+/gate/world/daughters/name VoxPhantom
+
+# INSERT THE NAVIGATION ALGORITHM THE MOST APPROPRIATE TO YOUR SIMULATION
+/gate/world/daughters/insert ImageRegionalizedVolume
+
+# READ IMAGE (.h33 for Interfile, .mhd for MetaImage, .hdr for Analyze)
+/gate/VoxPhantom/geometry/setImage {AttenuationFilename}
+
+# INSERT THE TRANSLATOR THAT WILL CONVERT THE IMAGE FROM DIGITAL VALUES TO
+# MATERIAL INFORMATION
+# RANGE TRANSLATOR (label values)
+/gate/VoxPhantom/geometry/setRangeToMaterialFile GATE/AttenuationConv.dat
+
+# Load distance map (dmap)
+/gate/VoxPhantom/geometry/distanceMap {GateOutputFilesDirectory}/images/dmap.hdr
+
+# UNITS TO MATERIAL CONVERSION DESCRIPTOR (label or HU values)
+# These are given as arguements to the GATE main.
+/gate/VoxPhantom/placement/setTranslation {AttenuationTranslationX} {AttenuationTranslationY} {AttenuationTranslationZ} mm
+/gate/VoxPhantom/placement/setRotationAxis 1 0 0
+/gate/VoxPhantom/placement/setRotationAngle 0 deg
+/gate/VoxPhantom/vis/forceWireframe
+/gate/VoxPhantom/vis/setColor green
+/gate/VoxPhantom/attachPhantomSD
+
+## ACTORS
+# to get mu map (REQUIRES GATE > 8.2)
+/gate/actor/addActor MuMapActor getMuMap
+/gate/actor/getMuMap/attachTo VoxPhantom
+/gate/actor/getMuMap/save {GateOutputFilesDirectory}/images/Phantom{SimuId}.hdr
+/gate/actor/getMuMap/setVoxelSize {AttenuationVoxelSizeX} {AttenuationVoxelSizeY} {AttenuationVoxelSizeZ}  mm
+/gate/actor/getMuMap/setResolution {NumberOfVoxelsX} {NumberOfVoxelsY} {NumberOfVoxelsZ}
+/gate/actor/getMuMap/setEnergy 511 keV
+
+
+########################
+## PHYSICAL INTERACTIONS
+########################
+/gate/physics/addPhysicsList empenelope
+/gate/physics/processList Enabled
+/gate/physics/processList Initialized
+
+
+#########
+## CUTS##
+#########
+/gate/physics/Gamma/SetCutInRegion      crystal 1.0 cm
+/gate/physics/Electron/SetCutInRegion   crystal 1.0 cm
+/gate/physics/Positron/SetCutInRegion   crystal 1.0 cm
+#/gate/physics/Gamma/SetCutInRegion      phantom 0.1 mm
+#/gate/physics/Electron/SetCutInRegion   phantom 0.1 mm
+#/gate/physics/Positron/SetCutInRegion   phantom 0.1 mm
+#/gate/physics/SetMaxStepSizeInRegion    phantom 0.01 mm
+
+
+############################
+## INITIALISATION OF GATE ##
+############################
+/gate/run/initialize
+
+
+####################################
+## Visualization (Added by Peter) ##
+####################################
+/vis/open                     OGLIQt #OGLS # OGLIQt
+/vis/drawVolume
+
+/vis/viewer/flush
+/tracking/storeTrajectory    1
+/vis/scene/add/trajectories
+/vis/scene/endOfEventAction   accumulate # Default is 100, I guess.
+
+/vis/scene/add/hits
+
+/vis/scene/add/axes
+#/vis/scene/add/axes            0 0 0 500 mm
+#/vis/scene/add/text            10 0 0 cm  20 0 0   X
+#/vis/scene/add/text            0 10 0 cm  20 0 0   Y
+#/vis/scene/add/text            0 0 10 cm  20 0 0   Z
+
+##/vis/viewer/set/viewpointThetaPhi 90 -90
+##/vis/viewer/set/viewpointThetaPhi 20 35
+##/vis/viewer/panTo 0 0
+##/vis/viewer/zoom 50
+
+#/vis/viewer/set/auxiliaryEdge  true
+
+
+
+###############
+## DIGITISER ##
+###############
+## R E A D O U T
+
+## For details regarding readout, see: https://opengate.readthedocs.io/en/latest/digitizer_and_detector_modeling.html#readout
+/gate/digitizer/Singles/insert                        adder
+/gate/digitizer/Singles/insert                        readout
+/gate/digitizer/Singles/readout/setDepth              1
+
+
+## C R Y S T A L   B L U R R I N G 
+
+/gate/digitizer/Singles/insert crystalblurring
+/gate/digitizer/Singles/crystalblurring/setCrystalResolutionMin 0.130
+/gate/digitizer/Singles/crystalblurring/setCrystalResolutionMax 0.145
+/gate/digitizer/Singles/crystalblurring/setCrystalQE 0.9
+/gate/digitizer/Singles/crystalblurring/setCrystalEnergyOfReference 511. keV
+
+
+## E N E R G Y   T H R E S H O L D
+
+/gate/digitizer/Singles/insert thresholder
+/gate/digitizer/Singles/thresholder/setThreshold 430. keV  # Not Verified
+/gate/digitizer/Singles/insert upholder
+/gate/digitizer/Singles/upholder/setUphold 610. keV
+
+
+## T I M I N G   R E S O L U T I O N
+
+/gate/digitizer/Singles/insert timeResolution
+/gate/digitizer/Singles/timeResolution/setTimeResolution 2.92969 ns
+
+
+## D E A D T I M E
+
+/gate/digitizer/Singles/insert deadtime
+/gate/digitizer/Singles/deadtime/setDeadTime 432. ns
+/gate/digitizer/Singles/deadtime/setMode paralysable
+/gate/digitizer/Singles/deadtime/chooseDTVolume rsector
+
+
+## C O I N C I D E N C E S
+
+/gate/digitizer/Coincidences/setWindow 5.85938 ns
+/gate/digitizer/Coincidences/setOffset 0. ns
+/gate/digitizer/Coincidences/MultiplesPolicy takeWinnerOfGoods
+/gate/digitizer/Coincidences/minSectorDifference 8
+/gate/digitizer/Coincidences/describe
+
+## D E L A Y
+
+/gate/digitizer/name   Delayed
+/gate/digitizer/insert   coincidenceSorter
+/gate/digitizer/Delayed/setInputName   Singles
+/gate/digitizer/Delayed/setOffset   200. ns
+/gate/digitizer/Delayed/setWindow   5.85938 ns
+/gate/digitizer/Delayed/minSectorDifference   8  ## GATE default=2. For this scanner, STIR does not unlist any rsector difference < 8. This value has been optimised to reduce the root file size
+
+
+
+########################
+## RADIOACTIVE SOURCE ##
+########################
+/gate/source/addSource SourcePhantom voxel
+/gate/source/SourcePhantom/reader/insert image
+
+# INSERT THE TRANSLATOR THAT WILL CONVERT THE IMAGE FROM DIGITAL VALUES TO
+# ACTIVITY VALUES
+/gate/source/SourcePhantom/imageReader/translator/insert linear
+/gate/source/SourcePhantom/imageReader/linearTranslator/setScale  1 Bq
+# READ IMAGE
+/gate/source/SourcePhantom/imageReader/readFile {ActivityFilename}
+
+# POSITION OF THE SOURCE (its default position is in the 1st quarter, so it has to be
+# shifted over half its dimensions in the negative direction on each axis)
+# These values are computed by `SubScripts/GetSourcePosition.sh`
+/gate/source/SourcePhantom/setPosition {SourcePositionX} {SourcePositionY} {SourcePositionZ} mm
+
+# CHARACTERIZATION OF THE SOURCE (no difference with an analytical source)
+/gate/source/SourcePhantom/setType backtoback
+/gate/source/SourcePhantom/gps/particle gamma
+/gate/source/SourcePhantom/setForcedUnstableFlag false
+/gate/source/SourcePhantom/setForcedHalfLife 6586.2 s
+/gate/source/SourcePhantom/gps/energytype Mono
+/gate/source/SourcePhantom/gps/monoenergy 511. keV
+/gate/source/SourcePhantom/gps/angtype iso
+#/gate/source/SourcePhantom/gps/confine NULL
+/gate/source/SourcePhantom/dump 1
+
+
+
+
+####################
+## ROOT LM OUTPUT ##
+####################
+## Output ROOT files
+## Save Singles and Coincidence Trees in their own files. Disable many aspects of Singles 
+
+/gate/output/tree/enable
+/gate/output/tree/addFileName {GateOutputFilesDirectory}/{ROOT_FILENAME_PREFIX}.root  ## be aware, GATE adds the Tree name e.g. {GateOutputFilesDirectory}/{ROOT_FILENAME_PREFIX}.Coincidences.root
+
+## S I N G L E S 
+# Please note, Singles output collection has been disabled as STIR is currently unable to
+# utilise the data in the estimation of the randoms events. In future, this may be addressed.
+
+#/gate/output/tree/addCollection Singles 
+
+## (disable all the non-required branches)
+/gate/output/tree/Singles/branches/sourceID/disable
+/gate/output/tree/Singles/branches/runID/disable
+/gate/output/tree/Singles/branches/eventID/disable
+/gate/output/tree/Singles/branches/sourcePosX/disable
+/gate/output/tree/Singles/branches/sourcePosY/disable
+/gate/output/tree/Singles/branches/sourcePosZ/disable
+/gate/output/tree/Singles/branches/globalPosX/disable
+/gate/output/tree/Singles/branches/globalPosY/disable
+/gate/output/tree/Singles/branches/globalPosZ/disable
+/gate/output/tree/Singles/branches/comptonPhantom/disable
+/gate/output/tree/Singles/branches/comptonCrystal/disable
+/gate/output/tree/Singles/branches/RayleighPhantom/disable
+/gate/output/tree/Singles/branches/RayleighCrystal/disable
+/gate/output/tree/Singles/branches/comptVolName/disable
+/gate/output/tree/Singles/branches/rotationAngle/disable
+/gate/output/tree/Singles/branches/axialPos/disable
+
+## C O I N C I D E N C E S
+/gate/output/tree/addCollection Coincidences
+
+## (disable all the non-required branches)
+/gate/output/tree/Coincidences/branches/runID/disable
+/gate/output/tree/Coincidences/branches/rotationAngle/disable
+/gate/output/tree/Coincidences/branches/axialPos/disable
+
+## D E L A Y E D
+/gate/output/tree/addCollection Delayed
+
+## S U M M A R Y   O U T P U T
+/gate/output/summary/enable
+/gate/output/summary/setFileName {GateOutputFilesDirectory}/digit_summary_{SimuId}.txt
+/gate/output/summary/addCollection Singles
+/gate/output/summary/addCollection Coincidences
+/gate/output/summary/addCollection Delayed	
+
+
+#############################
+## RANDOMS ENGINE AND SEED ##
+#############################
+# JamesRandom Ranlux64 MersenneTwister
+/gate/random/setEngineName JamesRandom
+#/gate/random/setEngineSeed default
+/gate/random/setEngineSeed auto
+#/gate/random/setEngineSeed 123456789
+#/gate/random/setEngineSeed default
+#/gate/random/resetEngineFrom fileName
+#/gate/random/verbose 1
+
+######################
+## ACQUISITION TIME ##
+######################
+/gate/application/setTimeSlice    {TimeSlice} s
+/gate/application/setTimeStart   {StartTime} s
+/gate/application/setTimeStop   {EndTime} s
+
+#########
+## RUN ##
+#########
+/gate/application/startDAQ

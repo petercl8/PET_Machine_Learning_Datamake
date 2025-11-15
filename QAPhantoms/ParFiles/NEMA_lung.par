@@ -1,0 +1,27 @@
+generate_image Parameters := 
+output filename:=NEMA_lung
+
+X output image size (in pixels):= ${VoxNumX}
+Y output image size (in pixels):= ${VoxNumY}
+Z output image size (in pixels):= ${VoxNumZ}
+X voxel size (in mm):= ${VoxSizeX}
+Y voxel size (in mm):= ${VoxSizeY}
+Z voxel size (in mm):= ${VoxSizeZ}
+
+  ; use 3x3x3 samples per voxel to reduce sharp edges
+  Z number of samples to take per voxel := ${SampleNum}
+  Y number of samples to take per voxel := ${SampleNum}
+  X number of samples to take per voxel := ${SampleNum}
+
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= ;interior main phantom body
+   radius-x (in mm):=25
+   radius-y (in mm):=25
+   length-z (in mm):=180
+   origin (in mm):={${CenterBackground},0,0}  ;(z,y,x)
+   END:=
+value :=1
+
+
+END:=

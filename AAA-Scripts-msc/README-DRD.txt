@@ -1,0 +1,1 @@
+To the best of our knowledge, the files in this directory remain unchanged from the original STIR-GATE Connection project. These files are not currently used in the Direct Reconstruction Datamake project.

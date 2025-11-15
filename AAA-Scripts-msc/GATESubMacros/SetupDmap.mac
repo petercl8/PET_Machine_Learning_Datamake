@@ -1,0 +1,39 @@
+## AUTHOR: Robert Twyman
+## Copyright (C) 2020 University College London
+## Licensed under the Apache License, Version 2.0 (the "License");
+
+
+## NO UI
+/vis/disable
+
+# MATERIAL DATABASE
+/gate/geometry/setMaterialDatabase GATESubMacros/GateMaterials.db
+
+# WORLD and SCANNER GEOMETRY
+/control/execute GATESubMacros/geometry.mac
+
+## VOXELISED PHANTOM
+# VOXELIZED PHANTOM BASED ON THE XCAT PHANTOM
+/gate/world/daughters/name VoxPhantom
+
+# INSERT THE NAVIGATION ALGORITHM THE MOST APPROPRIATE TO YOUR SIMULATION
+/gate/world/daughters/insert ImageRegionalizedVolume
+
+# READ IMAGE (.h33 for Interfile, .mhd for MetaImage, .hdr for Analyze)
+/gate/VoxPhantom/geometry/setImage {AttenuationFilename}
+
+# INSERT THE TRANSLATOR THAT WILL CONVERT THE IMAGE FROM DIGITAL VALUES TO
+# MATERIAL INFORMATION
+# RANGE TRANSLATOR (label values)
+/gate/VoxPhantom/geometry/setRangeToMaterialFile GATESubMacros/AttenuationConv.dat
+
+# Save dmap.hdr (need the later `/gate/run/initialize` to actually save)
+/gate/VoxPhantom/geometry/buildAndDumpDistanceTransfo {GateOutputFilesDirectory}/images/dmap.hdr
+/gate/VoxPhantom/geometry/distanceMap {GateOutputFilesDirectory}/images/dmap.hdr
+
+
+## PHYSICAL INTERACTIONS
+/control/execute GATESubMacros/physics.mac
+
+## INITIALISATION OF GATE (saves dmap.hdr)
+/gate/run/initialize

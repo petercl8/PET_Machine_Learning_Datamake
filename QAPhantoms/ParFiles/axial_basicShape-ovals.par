@@ -1,0 +1,119 @@
+generate_image Parameters := 
+output filename:=BasicShape
+
+X output image size (in pixels):= ${VoxNumX}
+Y output image size (in pixels):= ${VoxNumY}
+Z output image size (in pixels):= ${VoxNumZ}
+X voxel size (in mm):= ${VoxSizeX}
+Y voxel size (in mm):= ${VoxSizeY}
+Z voxel size (in mm):= ${VoxSizeZ}
+
+  ; use 3x3x3 samples per voxel to reduce sharp edges
+  Z number of samples to take per voxel := ${SampleNum}
+  Y number of samples to take per voxel := ${SampleNum}
+  X number of samples to take per voxel := ${SampleNum}
+
+
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= 
+   radius-x (in mm):=120
+   radius-y (in mm):=80
+   length-z (in mm):=9.81
+   origin (in mm):={0,0,0}  ;(z,y,x)
+   END:=
+value :=1
+next shape:=
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= 
+   radius-x (in mm):=120
+   radius-y (in mm):=80
+   length-z (in mm):=9.81
+   origin (in mm):={19.62,0,0}  ;(z,y,x)
+   END:=
+value :=1
+next shape:=
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= 
+   radius-x (in mm):=120
+   radius-y (in mm):=80
+   length-z (in mm):=9.81
+   origin (in mm):={39.24,0,0}  ;(z,y,x)
+   END:=
+value :=1
+next shape:=
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= 
+   radius-x (in mm):=120
+   radius-y (in mm):=80
+   length-z (in mm):=9.81
+   origin (in mm):={58.86,0,0}  ;(z,y,x)
+   END:=
+value :=1
+next shape:=
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= 
+   radius-x (in mm):=120
+   radius-y (in mm):=80
+   length-z (in mm):=9.81
+   origin (in mm):={78.48,0,0}  ;(z,y,x)
+   END:=
+value :=1
+next shape:=
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= 
+   radius-x (in mm):=120
+   radius-y (in mm):=80
+   length-z (in mm):=9.81
+   origin (in mm):={98.1,0,0}  ;(z,y,x)
+   END:=
+value :=1
+next shape:=
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= 
+   radius-x (in mm):=120
+   radius-y (in mm):=80
+   length-z (in mm):=9.81
+   origin (in mm):={117.72,0,0}  ;(z,y,x)
+   END:=
+value :=1
+next shape:=
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= 
+   radius-x (in mm):=120
+   radius-y (in mm):=80
+   length-z (in mm):=9.81
+   origin (in mm):={137.34,0,0}  ;(z,y,x)
+   END:=
+value :=1
+next shape:=
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= 
+   radius-x (in mm):=120
+   radius-y (in mm):=80
+   length-z (in mm):=9.81
+   origin (in mm):={156.96,0,0}  ;(z,y,x)
+   END:=
+value :=1
+next shape:=
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= 
+   radius-x (in mm):=120
+   radius-y (in mm):=80
+   length-z (in mm):=9.81
+   origin (in mm):={176.58,0,0}  ;(z,y,x)
+   END:=
+value :=1
+next shape:=
+shape type:= ellipsoidal cylinder
+
+END:=

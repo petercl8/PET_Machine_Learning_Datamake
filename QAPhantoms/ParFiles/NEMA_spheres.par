@@ -1,0 +1,147 @@
+generate_image Parameters := 
+output filename:=NEMA_spheres
+
+X output image size (in pixels):= ${VoxNumX}
+Y output image size (in pixels):= ${VoxNumY}
+Z output image size (in pixels):= ${VoxNumZ}
+X voxel size (in mm):= ${VoxSizeX}
+Y voxel size (in mm):= ${VoxSizeY}
+Z voxel size (in mm):= ${VoxSizeZ}
+
+  ; use 3x3x3 samples per voxel to reduce sharp edges
+  Z number of samples to take per voxel := ${SampleNum}
+  Y number of samples to take per voxel := ${SampleNum}
+  X number of samples to take per voxel := ${SampleNum}
+
+
+shape type:= ellipsoid 
+Ellipsoid Parameters:=
+   radius-x (in mm):=5
+   radius-y (in mm):=5
+   radius-z (in mm):=5
+   origin (in mm):={${CenterScanner},-49.54,28.60}  ;(z,y,x)
+   END:=
+value :=${Sphere_10_ExcessActivity}
+
+next shape:=
+shape type:= ellipsoid 
+Ellipsoid Parameters:=
+   radius-x (in mm):=5
+   radius-y (in mm):=5
+   radius-z (in mm):=5
+   origin (in mm):={${CenterScanner},-80,0}  ;(z,y,x)
+   END:=
+value :=${Background_ROI_Sphere_10_ExcessActivity}
+
+
+
+next shape:=
+shape type:= ellipsoid
+Ellipsoid Parameters:=
+   radius-x (in mm):=6.5
+   radius-y (in mm):=6.5
+   radius-z (in mm):=6.5
+   origin (in mm):={${CenterScanner},-49.54,-28.60}  ;(z,y,x)
+   END:=
+value :=${Sphere_13_ExcessActivity}
+
+next shape:=
+shape type:= ellipsoid
+Ellipsoid Parameters:=
+   radius-x (in mm):=6.5
+   radius-y (in mm):=6.5
+   radius-z (in mm):=6.5
+   origin (in mm):={${CenterScanner},-80,0}  ;(z,y,x)
+   END:=
+value :=${Background_ROI_Sphere_13_ExcessActivity}
+
+
+
+next shape:=
+shape type:= ellipsoid
+Ellipsoid Parameters:=
+   radius-x (in mm):=8.5
+   radius-y (in mm):=8.5
+   radius-z (in mm):=8.5
+   origin (in mm):={${CenterScanner},0,-57.20}  ;(z,y,x)
+   END:=
+value :=${Sphere_17_ExcessActivity}
+
+next shape:=
+shape type:= ellipsoid
+Ellipsoid Parameters:=
+   radius-x (in mm):=8.5
+   radius-y (in mm):=8.5
+   radius-z (in mm):=8.5
+   origin (in mm):={${CenterScanner},-80,0}  ;(z,y,x)
+   END:=
+value :=${Background_ROI_Sphere_17_ExcessActivity}
+
+
+
+next shape:=
+shape type:= ellipsoid
+Ellipsoid Parameters:=
+   radius-x (in mm):=11
+   radius-y (in mm):=11
+   radius-z (in mm):=11
+   origin (in mm):={${CenterScanner},49.54,-28.60}  ;(z,y,x)
+   END:=
+value :=${Sphere_22_ExcessActivity}
+
+next shape:=
+shape type:= ellipsoid
+Ellipsoid Parameters:=
+   radius-x (in mm):=11
+   radius-y (in mm):=11
+   radius-z (in mm):=11
+   origin (in mm):={${CenterScanner},-80,0}  ;(z,y,x)
+   END:=
+value :=${Background_ROI_Sphere_22_ExcessActivity}
+
+
+
+next shape:=
+shape type:= ellipsoid
+Ellipsoid Parameters:=
+   radius-x (in mm):=14
+   radius-y (in mm):=14
+   radius-z (in mm):=14
+   origin (in mm):={${CenterScanner},49.54,28.60}  ;(z,y,x)
+   END:=
+value :=${Sphere_28_ExcessActivity}
+
+next shape:=
+shape type:= ellipsoid
+Ellipsoid Parameters:=
+   radius-x (in mm):=14
+   radius-y (in mm):=14
+   radius-z (in mm):=14
+   origin (in mm):={${CenterScanner},-80,0}  ;(z,y,x)
+   END:=
+value :=${Background_ROI_Sphere_28_ExcessActivity}
+
+
+
+next shape:=
+shape type:= ellipsoid
+Ellipsoid Parameters:=
+   radius-x (in mm):=18.5
+   radius-y (in mm):=18.5
+   radius-z (in mm):=18.5
+   origin (in mm):={${CenterScanner},0,57.20}  ;(z,y,x)
+   END:=
+value :=${Sphere_37_ExcessActivity}
+
+next shape:=
+shape type:= ellipsoid
+Ellipsoid Parameters:=
+   radius-x (in mm):=18.5
+   radius-y (in mm):=18.5
+   radius-z (in mm):=18.5
+   origin (in mm):={${CenterScanner},-80,0}  ;(z,y,x)
+   END:=
+value :=${Background_ROI_Sphere_37_ExcessActivity}
+
+
+END:=

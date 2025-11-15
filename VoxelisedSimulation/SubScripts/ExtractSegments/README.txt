@@ -1,0 +1,3 @@
+extract_rebinned_segments.sh takes a single sinogram ().hs/.s) and extracts it into multiple interfiles (.h/.hv), allowing for non-STIR utilities to read the sinogram interfiles. Sometimes it creates twice as many files as the number of rings of the scanner, so it's been quarantined in the extracted_segments folder for easy cleaning of excess files.
+
+extract_oblique_segment.sh does the same thing, but for oblique (not rebinned) sinograms. Only nifti files are copied to the dataset directory for this one.

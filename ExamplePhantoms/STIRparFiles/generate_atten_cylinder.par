@@ -1,0 +1,25 @@
+generate_image Parameters :=
+output filename:=my_atten_cylinder
+
+X output image size (in pixels):=230
+Y output image size (in pixels):=230
+Z output image size (in pixels):=47
+X voxel size (in mm):= 3
+Y voxel size (in mm):= 3
+Z voxel size (in mm) :=3.27
+
+  ; use 3x3x3 samples per voxel to reduce sharp edges
+  Z number of samples to take per voxel := 3
+  Y number of samples to take per voxel := 3
+  X number of samples to take per voxel := 3
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:=
+   radius-x (in mm):=100
+   radius-y (in mm):=100
+   length-z (in mm):=110
+   origin (in mm):={100,20,40}
+   END:=
+value := 0.096
+
+END:=

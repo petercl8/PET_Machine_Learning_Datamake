@@ -1,0 +1,66 @@
+generate_image Parameters := 
+output filename:=NEMA_background
+
+X output image size (in pixels):= ${VoxNumX}
+Y output image size (in pixels):= ${VoxNumY}
+Z output image size (in pixels):= ${VoxNumZ}
+X voxel size (in mm):= ${VoxSizeX}
+Y voxel size (in mm):= ${VoxSizeY}
+Z voxel size (in mm):= ${VoxSizeZ}
+
+  ; use 3x3x3 samples per voxel to reduce sharp edges
+  Z number of samples to take per voxel := ${SampleNum}
+  Y number of samples to take per voxel := ${SampleNum}
+  X number of samples to take per voxel := ${SampleNum}
+
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= ;large ellipsoid which gives the top curvature
+   radius-x (in mm):=147
+   radius-y (in mm):=147
+   length-z (in mm):=180
+   origin (in mm):={${CenterBackground},35,0}  ;(z,y,x)
+   END:=
+value :=${BackgroundActivity}
+
+next shape:=
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= ;smaller ellipsoid, displaced toward negative x direction
+   radius-x (in mm):=77
+   radius-y (in mm):=77
+   length-z (in mm):=180
+   origin (in mm):={${CenterBackground},35,-70}  ;(z,y,x)
+   END:=
+value :=${BackgroundActivity}
+
+next shape:=
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:= ;smaller ellipsoid, displaced toward positive x direction
+   radius-x (in mm):=77
+   radius-y (in mm):=77
+   length-z (in mm):=180
+   origin (in mm):={${CenterBackground},35,70}  ;(z,y,x)
+   END:=
+value :=${BackgroundActivity}
+
+next shape:=
+shape type:= Box3D
+Box Parameters:=
+   length-x (in mm):=140
+   length-y (in mm):=112
+   length-z (in mm):=180
+   origin (in mm):={${CenterBackground},56,0}  ;(z,y,x)
+End:=
+value :=${BackgroundActivity}
+
+next shape:=
+shape type:= Box3D
+Box Parameters:=
+   length-x (in mm):=294
+   length-y (in mm):=147
+   length-z (in mm):=180
+   origin (in mm):={${CenterBackground},-38.5,0}  ;(z,y,x)
+End:=
+value :=${BackgroundActivity}
+
+END:=

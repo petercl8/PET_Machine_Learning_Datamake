@@ -1,0 +1,35 @@
+generate_image Parameters :=
+output filename:=my_activity_cylinders
+
+X output image size (in pixels):=111
+Y output image size (in pixels):=111
+Z output image size (in pixels):=47
+X voxel size (in mm):= 3
+Y voxel size (in mm):= 3
+Z voxel size (in mm) :=3.27
+
+  ; use 3x3x3 samples per voxel to reduce sharp edges
+  Z number of samples to take per voxel := 3
+  Y number of samples to take per voxel := 3
+  X number of samples to take per voxel := 3
+
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:=
+   radius-x (in mm):=50
+   radius-y (in mm):=50
+   length-z (in mm):=110
+   origin (in mm):={70,0,-100}
+   END:=
+value :=100
+
+next shape:=
+shape type:= ellipsoidal cylinder
+Ellipsoidal Cylinder Parameters:=
+   radius-x (in mm):=50
+   radius-y (in mm):=50
+   length-z (in mm):=110
+   origin (in mm):={70,0,100}
+   END:=
+value :=100
+
+END:=

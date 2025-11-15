@@ -1,0 +1,6 @@
+Forward Projector parameters:=
+    type := Parallelproj
+        Forward Projector Using Parallelproj Parameters:=
+        verbosity := 1
+        End Forward Projector Using Parallelproj Parameters:=
+End:=

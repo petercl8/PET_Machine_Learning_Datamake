@@ -1,0 +1,13 @@
+Rebin projdata Parameters :=
+    rebinning type := FORE
+        FORE Parameters :=
+            input file := ${precorrected_for_FORE}
+            output filename prefix := ${rebinned_filename}_${count_label}
+            Smallest angular frequency := 20    ;default 20, 40 looks okay
+            Smallest transaxial frequency := 20 ;default 20, 40 looks okay
+            Index for consistency := 20         ;default 20, 10 no difference
+            Delta max for small omega := 10     ;default 10, 20 looks a little smoother
+            maximum absolute segment number to process := ${acceptance_angle}
+            FORE debug level := 0
+        End FORE Parameters:=
+END:=

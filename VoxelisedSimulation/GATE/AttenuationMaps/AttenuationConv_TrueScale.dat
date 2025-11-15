@@ -1,0 +1,16 @@
+15
+0 200 Air
+201 400 Lung
+401 900 Adipose
+901 965 Water
+966 988 Breast
+989 1020 Muscle
+1021 1060 Cartilage
+1061 1400 SpineBone
+1401 1600 Skull
+1601 2000 RibBone
+2001 3000 Aluminium
+3001 4000 Titanium
+4001 5000 Iodine
+5001 7000 Iron
+7001 20000 Lead

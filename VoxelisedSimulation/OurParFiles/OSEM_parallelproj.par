@@ -1,0 +1,56 @@
+OSMAPOSLParameters :=
+; example file for OSEM in the STIR-GATE-Connection
+
+  objective function type:= PoissonLogLikelihoodWithLinearModelForMeanAndProjData
+  PoissonLogLikelihoodWithLinearModelForMeanAndProjData Parameters:=
+
+    ; The unlisted Coincidence data output by GATE.
+    input file := ${InputSinogram}
+
+    projector pair type := Parallelproj
+    Projector Pair Using Parallelproj Parameters:=
+      verbosity := 1
+    End Projector Pair Using Parallelproj Parameters:=
+
+    ; Additive projection data containing randoms and scattered events estimates.
+    ; This can be computed using the `ComputePoissonDataCorrections.sh` script.
+    additive sinogram := ${AdditiveSinogram} 
+
+    ; Normalisation and Attenuation Correction Factors
+    ; In the STIR-GATE-Connection the product of these sinograms is often 
+    ; known as Multiplicative Factors (or MultFactors).
+    ; This can be computed using the `ComputePoissonDataCorrections.sh` script.
+    Bin Normalisation type := From ProjData
+    Bin Normalisation From ProjData :=
+      normalisation projdata filename:= ${MultFactors}
+    End Bin Normalisation From ProjData:=
+
+    subset sensitivity filenames:= subset_sens_%d
+    recompute sensitivity := 1
+
+    xy output image size (in pixels) := -1
+
+    ;zoom = 0.2
+
+  end PoissonLogLikelihoodWithLinearModelForMeanAndProjData Parameters:=
+
+  output filename prefix := OSEM_${PhantomFilenameStem}_${SectionNum}_oblique
+  number of subsets:= ${NumSubsets}
+  number of subiterations:= ${NumSubiterations}
+  save estimates at subiteration intervals:= 1
+
+  inter-iteration filter subiteration interval:= 1  ; 1 is best for uncorrected data, 2 is best for precorrected data
+  inter-iteration filter type := Separable Gaussian
+    separable gaussian filter parameters :=
+    x-dir filter fwhm (in mm) := 3  ;Default 3
+    y-dir filter fwhm (in mm) := 3  ;Default 3
+    z-dir filter fwhm (in mm) := 3  ;Default 3
+    ;x-dir maximum kernel size := 129
+    ;y-dir maximum kernel size := 129
+    ;z-dir maximum kernel size := 31
+    Normalise filter to 1 := 0      ;default 1, chaining doesn't do much
+  end separable gaussian filter parameters :=
+
+  post-filter type := None
+
+END :=

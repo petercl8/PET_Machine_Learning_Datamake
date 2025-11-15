@@ -1,0 +1,148 @@
+generate_image Parameters := 
+output filename:=BasicShape
+
+X output image size (in pixels):= ${VoxNumX}
+Y output image size (in pixels):= ${VoxNumY}
+Z output image size (in pixels):= ${VoxNumZ}
+X voxel size (in mm):= ${VoxSizeX}
+Y voxel size (in mm):= ${VoxSizeY}
+Z voxel size (in mm):= ${VoxSizeZ}
+
+  ; use 3x3x3 samples per voxel to reduce sharp edges
+  Z number of samples to take per voxel := ${SampleNum}
+  Y number of samples to take per voxel := ${SampleNum}
+  X number of samples to take per voxel := ${SampleNum}
+
+shape type:= Box3D
+Box Parameters:= 
+   length-x (in mm):=360
+   length-y (in mm):=360
+   length-z (in mm):=180
+   origin (in mm):={${CenterScanner},0,0}  ;(z,y,x)
+   direction vectors (in mm) := { {1,0,0}, {0,1,0}, {0,0,1}}
+   END:=
+value :=1
+next shape:=
+
+shape type:= Box3D
+Box Parameters:= 
+   length-x (in mm):=330
+   length-y (in mm):=330
+   length-z (in mm):=180
+   origin (in mm):={${CenterScanner},0,0}  ;(z,y,x)
+   direction vectors (in mm) := { {1,0,0}, {0,1,0}, {0,0,1}}
+   END:=
+value :=-1
+next shape:=
+
+shape type:= Box3D
+Box Parameters:= 
+   length-x (in mm):=300
+   length-y (in mm):=300
+   length-z (in mm):=180
+   origin (in mm):={${CenterScanner},0,0}  ;(z,y,x)
+   direction vectors (in mm) := { {1,0,0}, {0,1,0}, {0,0,1}}
+   END:=
+value :=1
+next shape:=
+
+shape type:= Box3D
+Box Parameters:= 
+   length-x (in mm):=270
+   length-y (in mm):=270
+   length-z (in mm):=180
+   origin (in mm):={${CenterScanner},0,0}  ;(z,y,x)
+   direction vectors (in mm) := { {1,0,0}, {0,1,0}, {0,0,1}}
+   END:=
+value :=-1
+next shape:=
+
+shape type:= Box3D
+Box Parameters:= 
+   length-x (in mm):=240
+   length-y (in mm):=240
+   length-z (in mm):=180
+   origin (in mm):={${CenterScanner},0,0}  ;(z,y,x)
+   direction vectors (in mm) := { {1,0,0}, {0,1,0}, {0,0,1}}
+   END:=
+value :=1
+next shape:=
+
+shape type:= Box3D
+Box Parameters:= 
+   length-x (in mm):=210
+   length-y (in mm):=210
+   length-z (in mm):=180
+   origin (in mm):={${CenterScanner},0,0}  ;(z,y,x)
+   direction vectors (in mm) := { {1,0,0}, {0,1,0}, {0,0,1}}
+   END:=
+value :=-1
+next shape:=
+
+shape type:= Box3D
+Box Parameters:= 
+   length-x (in mm):=180
+   length-y (in mm):=180
+   length-z (in mm):=180
+   origin (in mm):={${CenterScanner},0,0}  ;(z,y,x)
+   direction vectors (in mm) := { {1,0,0}, {0,1,0}, {0,0,1}}
+   END:=
+value :=1
+next shape:=
+
+shape type:= Box3D
+Box Parameters:= 
+   length-x (in mm):=150
+   length-y (in mm):=150
+   length-z (in mm):=180
+   origin (in mm):={${CenterScanner},0,0}  ;(z,y,x)
+   direction vectors (in mm) := { {1,0,0}, {0,1,0}, {0,0,1}}
+   END:=
+value :=-1
+next shape:=
+
+shape type:= Box3D
+Box Parameters:= 
+   length-x (in mm):=120
+   length-y (in mm):=120
+   length-z (in mm):=180
+   origin (in mm):={${CenterScanner},0,0}  ;(z,y,x)
+   direction vectors (in mm) := { {1,0,0}, {0,1,0}, {0,0,1}}
+   END:=
+value :=1
+next shape:=
+
+shape type:= Box3D
+Box Parameters:= 
+   length-x (in mm):=90
+   length-y (in mm):=90
+   length-z (in mm):=180
+   origin (in mm):={${CenterScanner},0,0}  ;(z,y,x)
+   direction vectors (in mm) := { {1,0,0}, {0,1,0}, {0,0,1}}
+   END:=
+value :=-1
+next shape:=
+
+shape type:= Box3D
+Box Parameters:= 
+   length-x (in mm):=60
+   length-y (in mm):=60
+   length-z (in mm):=180
+   origin (in mm):={${CenterScanner},0,0}  ;(z,y,x)
+   direction vectors (in mm) := { {1,0,0}, {0,1,0}, {0,0,1}}
+   END:=
+value :=1
+next shape:=
+
+shape type:= Box3D
+Box Parameters:= 
+   length-x (in mm):=30
+   length-y (in mm):=30
+   length-z (in mm):=180
+   origin (in mm):={${CenterScanner},0,0}  ;(z,y,x)
+   direction vectors (in mm) := { {1,0,0}, {0,1,0}, {0,0,1}}
+   END:=
+value :=-1
+next shape:=
+
+END :=

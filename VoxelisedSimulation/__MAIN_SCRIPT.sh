@@ -218,7 +218,6 @@ if [ $ReplaceAttenMapWithAir = 1 ]; then
 fi
 
 
-
 #####=============================================
 # Make the output directories, if they don't exist
 #####=============================================
@@ -253,7 +252,7 @@ fi
 # To:
 #	./UnlistingTemplates directory: root_header_templet.hroot, STIR_scanner.hs	
 #
-# Note: For our project, we've hardcoded the geometry and digitizer in the GATE macro for each scanner.
+# Note: For this project, we've hardcoded the geometry and digitizer in the GATE macro for each scanner.
 
 if [ $ScannerType = "D690" ]; then
 	echo "\nPreparing D690 scanner files"
@@ -308,8 +307,7 @@ export parproj ScannerType CleanupFiles
 # This loop exists to run through multiple sections of a single XCAT phantom, so that you just have to run this main script once per whole body.
 # However, SectionNum can be any character or word for non-XCAT phantoms - it's just an identifier.
 # If running an XCAT phantom:
-# 	"Sections" must be a series of numbers. (ex. 0 1 2 3 4 5 ... 15). The section of the XCAT phantom chosen starts at the number*47 for the D690 scanner.
-# 	For example, if SectionNum = 2, the XCAT par file is edited to use slices between 94 and 141. (Disregarding the overlap)
+# 	"Sections" must be a series of numbers. (ex. 0 1 2 3 4 5 ... 15).
 # 	The slices are selected starting at the feet. You can also run only certain sections; normally sections 8-10 include high activity organs.
 # 	To find the exact number of slices for a phantom, you'd take the height of the person (in cm, found in _XCAT_phantom_titles.ods), and divide by 
 #	the scaling factor (3.27 mm/pixel for the D-690). The scaling factor is specified in XCAT_phantom_act_1.hv (the template header for XCAT activity 	
@@ -319,7 +317,7 @@ export parproj ScannerType CleanupFiles
 if [ $phantom_type = 2 ]; then
 	Sections=$XCATsections
 else
-	Sections=$PhantomFilenameStem
+	Sections=$PhantomFilenameStem # For non-XCAT phantoms, we just run one section named after the phantom.
 fi
 
 for SectionNum in $Sections; do

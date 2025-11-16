@@ -20,9 +20,10 @@ ActivityFilenameStemGATE=$ActivityFilenameStem"_GATE"
 AttenuationFilenameStemGATE=$AttenuationFilenameStem"_GATE"
 
 ## Perform scalar multiplication --> create *_GATE.ahv, *_GATE.hv, *_GATE.v ##
-#  "--including-first" means the input (e.g. ActivityFilenameStem.hv + datafile) and the output (e.g. ActivityFilenameStemGATE.hv + datafile) 
-# 	are multiplied by the scalar. The output are two files (one header, one data) identical to the inputs (now multiplied) but with different names. 
-#	Stir_math also creates a .ahv file for both input & output, yeilding six files in total.
+#  "--including-first" means the first argument (the input, e.g. ActivityFilenameStem.hv + datafile) is multiplied which then yields the output
+#  (e.g. ActivityFilenameStemGATE.hv + datafile) 
+#  The output are two files (one header, one data) identical to the inputs (now multiplied) but with different names. 
+#  stir_math also creates a .ahv file for both input & output, yeilding six files in total.
 
 stir_math --including-first --times-scalar $ActivityScaleFactor $ActivityFilenameStemGATE".hv" $ActivityFilenameStem".hv" # Here we change the name of the file and also, by using stir_math, the extension of the data file is changed from .bin to .v
 

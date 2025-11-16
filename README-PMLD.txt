@@ -25,6 +25,9 @@ OVERVIEW OF FILE TREE
 =====================
 The files in this file tree were created to generate a dataset including ground truths, sinograms, and image reconstructions for rebinned and non-rebinned data.
 
+
+git-*.bat: Various batch files used to maintain the repository. Not necessary to run the code.
+
 XCAT_phantomInfo.ods: spreadsheet with full xcat phantom information.
 
 XCAT_sortingInfo.csv: comma-separated value file. This is smaller spreadsheet with information useful for sorting phantoms into training set, test set, validation set, etc.

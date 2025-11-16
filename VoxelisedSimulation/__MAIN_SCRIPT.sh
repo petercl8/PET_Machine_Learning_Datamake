@@ -44,53 +44,51 @@ PhantomSpecificQAFolder=QA-testing # Name of subfolder in DatasetDir to which al
 #PhantomFilenameStem="male_pt184" # This is the most corpulent phantom.
 
 PhantomFilenameStem="female_pt86"
-PhantomSpecificXCATFolder="XCAT_female_pt86" # Name of subfolder in DatasetDir to which all output files are saved. Therefore, each phantom has it's own data directory. This directory is created, if it doesn't exist already.
-XCATsections="0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16"
-#XCATsections="11"
-gender="0" #0 = male, 1 = female
+PhantomSpecificXCATFolder="XCAT_female_pt86" # Name of subfolder in DatasetDir to which all the output files are saved. Each phantom has it's own data directory. This directory is created, if it doesn't exist already.
+XCATsections="0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16" # Sections of the XCAT phantom to be simulated. Each section is 47 slices high for the D690 scanner. The sections are numbered starting from the feet (0 = feet, 16 = head). You can choose to simulate only certain sections if you wish. Once you set this variable, the script will loop through each section and simulate them one at a time. If a section above the head is created (which has zero activity), the script will terminate the simulation.
+gender="0" #0 = male, 1 = female. This must match the gender of the phantom specified in PhantomFilenameStem.
 
 # XCAT organ activities are made to vary between simulations
 # ----------------------------------------------------------
 # Percentage variation allowed in activities of XCAT phantom organs. The average will be a clinically determined SUV for the particular organ.
-# total_activity_variation = +/- variation allowed in total sum of activities [default: 0.25]
+# total_activity_variation = +/- variation allowed in total sum of activities [default: 0.25]. If set to 0.25, the total activity in the phantom will vary between 75% and 125% of the default total activity.
 # small_activity_variation = +/- variation allowed in default activities smaller than 10 [default: 0.75]
 # large_activity_variation = +/- variation allowed in default activities larger than 10 [default: 0.75]
-# organ_symmetry_variation = +/- difference allowed between Left/Right of the same organ (ex. left kidney and right kidney) [default: 0.1]
+# organ_symmetry_variation = +/- difference allowed between Left/Right of the same organ (ex. left kidney and right kidney).
 # normalize = normalize the XCAT phantom to clinical acquisition activity levels?
 total_activity_variation=0.25
-small_activity_variation=0 # 0.75 # Fractional variation for small activity organs (not diseased).
-large_activity_variation=0 # 0.75 # Fractional variation for large activity organs (not diseased).
-organ_symmetry_variation=0 # 0.3  # Fractional variation for symmetrical organs (not diseased).
+small_activity_variation=0.75 # 0.75 # Fractional variation for small activity organs (not diseased).
+large_activity_variation=0.75 # 0.75 # Fractional variation for large activity organs (not diseased).
+organ_symmetry_variation=0.3 # 0.3  # Fractional variation for symmetrical organs (not diseased).
 
-fraction_diseased=0 # Fraction of organs which are diseased.
+fraction_diseased=0.9 # Fraction of organs which are diseased.
 max_SUV_diseased=17.48 # Maximum SUV for diseased organs. Diseased organs will have random SUVs between max_SUV_diseased and min_SUV_diseased.
 min_SUV_diseased=1.49
 
-# Slices at the edge of the axial FOV are worse than in the centre due to a known STIR issue.
-# Therefore, We want overlap between them.
-overlap=12 # number of slices on either end of the phantom that are run twice. 10 is a good default.
+# Slices at the edge of the axial FOV are worse than in the centre due to a known STIR issue and also due to fewer oblique LORs being present.
+# Therefore, We want to overlap sections to ensure that all slices are reconstructed with good data.
+overlap=12 # number of slices on either end of the phantom that are run twice. 12 is a good default.
 voxelZ=47 # number of z slices per section scanned. voxelZ = num_scanner_rings*2 - 1
 
-## -----------------------------
-## Parameters Unlikely to change
-## -----------------------------
+## ---------------------
+## Persistent Parameters
+## ---------------------
 # Path to folder holding XCAT executable and config key.
 # NRB folder with all phantom .nrb files should be in XCAT folder.
 normalize_xcat=0	# We set this equal to 0 because clinical activity levels take a prohibitively long time to run.
 which_breast="1" #0 = none, 1 = both, 2 = right only, 3 = left only
-XCAT_PATH="/home/peter/software/XCAT"
+XCAT_PATH="/home/peter/software/XCAT" # Path to XCAT software. Update this for your system.
 NRB_FOLDER_NAME="xcat_adult_nrb_files" # ${XCAT_PATH}/${NRB_FOLDER_NAME} should lead to the nrb files passed to XCAT for each phantom
 ScannerType="D690"  # Selection of scanner from Examples (eg. D690/mMR)
-parproj=1 # Variable to enable use of parallelproject (1) or use a ray tracing matrix (0)
+parproj=1 # Variable to enable use of parallelproject (1) or use a ray tracing matrix (0). Parallelproject is faster.
 ReplaceAttenMapWithAir=0 # This is useful for examining to what degree scattered & random coincidences contribute to image degradation. If you set this flag to 1, the simulation & reconstruction will run with the attenuation map replaced with air.
 
 UnlistScatteredCoincidences=1  ## Unlist Scattered photon coincidence events (0 or 1)
 UnlistRandomCoincidences=1  ## Unlist Random coincidence events (0 or 1)
 UnlistDelayedEvents=1 ## Unlist Delayed coincidence event data. This is used in the randoms estimation.
 
-GateOutputFilesDirectory=Output  ## Save location for root & unlisted data, etc. There's a bug in the code if you don't use 'Output' so use this.
 CleanupFiles=0 # Cleanup files at end of reconstruction
-
+GateOutputFilesDirectory=Output  ## Save location for root & unlisted data, etc. Do not change this value.
 
 
 ######==================
@@ -104,10 +102,9 @@ if [ -n "$1" ]; then
 	PhantomSpecificXCATFolder=XCAT_"${1}"
 fi
 
+# Optionally clear previous files
 if [ $StartFromScratch = 1 ]; then 
 	find . -maxdepth 1 -type f ! -name "__MAIN_SCRIPT.sh" ! -name "__RunMultiplePhantoms.sh" -delete
-	#find . -maxdepth 1 -type f ! -name "__MAIN_SCRIPT.sh" -delete
-	#rm -r "./${GateOutputFilesdirectory}"
 fi
 
 GATEMainMacro="MainGATE-${ScannerType}.mac" ## Main macro script for GATE
@@ -192,10 +189,9 @@ else
 	# Copy template header files to the root directory, and rename them in the process.
 	# Note: to change the voxel sizes, you must change:
 	#	1) the header files (copied below)
-	#	2) the .par file used to construct the binary XCAT file. This is specified in ./SubScripts/ChangeCATPars.py
+	#	2) the .par file used to construct the binary XCAT file. This file is specified in ./SubScripts/ChangeXCATPars.py
 	# The scanner is 81 cm wide. For XCAT phantoms, it's recommended to fill this space with a square volume of voxels so that the corners of the
-	# 	square volume intersect the scanner itself. However, for radially symmetric phantoms (such as the QA phantoms), this causes artifacts.
-	#	Therefore, for these phantoms, it is recommended to use a smaller voxelized volume which DOES NOT intersect the scanner.
+	# 	square volume do not intersect the scanner. Otherwise, artifacts may result.
 
 	ActivityFilenameStem=${PhantomFilenameStem}_act_1
 	AttenuationFilenameStem=${PhantomFilenameStem}_atn_1

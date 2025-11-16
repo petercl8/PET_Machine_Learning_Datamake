@@ -1,5 +1,6 @@
 This directory contains scripts that generate QA phantoms and masks from the phantoms for ROI analysis (as described by the NEMA standards).
 
+AttenCheck: A phantom designed to check whether the attenuation map is lining up properly with the reconstructed activity map in STIR.
 NEMA: NEMA phantom as described by the 2007 standards. The background should have an activity of 1, the two largest (cold) spheres should have activities of 0, and the 4 smallest (hot) spheres should have activities of 4 or 8.
 Axial: A modified Defrise phantom. A series of disks in the axial direction to analyze axial distortions.
 Radial: Concentric rings to analyze radial distortions.

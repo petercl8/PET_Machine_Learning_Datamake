@@ -91,10 +91,10 @@ In order for the scripts to properly run, the user must:
 -set the correct path to XCAT as XCAT_PATH in __MAIN_SCRIPT.sh
 
 Required software:
--GATE 9.2
--Geant4 11.0.0
--STIR 6.0
 -ROOT 6.30
+-Geant4 11.0.0
+-GATE 9.2 (avoid more recent versions as these lack the ability to export both prompt and delayed sinograms simultaneously)
+-STIR 6.0 (more recent versions may have fewer bugs)
 -parallelproj 1.8.0
 -XCAT (if generating XCAT phantoms)
 -Xmedcon 0.21.2 (file conversion from .hdr GATE output to STIR-readable interfile)

@@ -25,14 +25,13 @@ OVERVIEW OF FILE TREE
 =====================
 The files in this file tree were created to generate a dataset including ground truths, sinograms, and image reconstructions for rebinned and non-rebinned data.
 
-
 git-*.bat: Various batch files used to maintain the repository. Not necessary to run the code.
 
 XCAT_phantomInfo.ods: spreadsheet with full xcat phantom information.
 
-XCAT_sortingInfo.csv: comma-separated value file. This is smaller spreadsheet with information useful for sorting phantoms into training set, test set, validation set, etc.
+XCAT_sortingInfo.csv: comma-separated value file. This is a smaller spreadsheet with information useful for sorting phantoms into training set, test set, validation set, etc.
 
-dataset_notebook: Jupyter notebook which contains phython code for manipulating the dataset. Includes functions for (among other things): displaying data and images, reconstruction, projection, IQA metrics, reading interfiles and storing them in numpy arrays, compiling smaller data sections into larger data structures, sorting phantoms into sets via iterative stratification, and performing ROI analysis. Code here is optimized for Google Colab but can also be run on a local machine.
+dataset_notebook.ipynb: Jupyter notebook which contains python code for manipulating the generated interfiles. Includes functions for (among other things): displaying data and images, reconstruction, projection, IQA metrics, reading interfiles and storing them in numpy arrays, compiling smaller data sections into larger data structures, sorting phantoms into sets via iterative stratification, and performing ROI analysis. Code here is optimized for Google Colab but can also be run on a local machine.
 
 this_SGC.sh: this file must be left in the main directory. It sets the paths.
 
@@ -91,10 +90,10 @@ In order for the scripts to properly run, the user must:
 -set the correct path to XCAT as XCAT_PATH in __MAIN_SCRIPT.sh
 
 Required software:
--GATE 9.2
--Geant4 11.0.0
--STIR 6.0
 -ROOT 6.30
+-Geant4 11.0.0
+-GATE 9.2 (avoid more recent versions as these lack the ability to export both prompt and delayed sinograms simultaneously)
+-STIR 6.0 (more recent versions may have fewer bugs)
 -parallelproj 1.8.0
 -XCAT (if generating XCAT phantoms)
 -Xmedcon 0.21.2 (file conversion from .hdr GATE output to STIR-readable interfile)

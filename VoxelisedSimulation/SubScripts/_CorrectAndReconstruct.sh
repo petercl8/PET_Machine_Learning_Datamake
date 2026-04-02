@@ -7,13 +7,13 @@ CalcACFs=1
 CalcNormSino=1
 CalcScatter=1
 CalcPrecorrect=1 # 0 = don't run precorrection (leaves any written data alone), 1 = run precorrection using STIR utility, 2 = run precorrection using a simple subtraction & multiplication of sinograms, 3 = don't run precorrrection and set the "precorrected data" equal to the prompt sinogram. This is useful for seeing the difference that corrections make.
-CalcFORE=1
-ReconFORE=1
-ReconOblique=1
+CalcFORE=1 # Perform Fourier rebinning
+ReconFORE=1 # Perform Fourier-rebinned reconstructions
+ReconOblique=1 # Perform 3D OSEM reconstructions
 SaveFilesToDataset=1
 
 GlobalAttenScaleFactor=1	# You can vary this and check to see how well the attenuatio correction is working (0.87 seems best for AttenCheck QA phantom).
-RandomsScaleFactor=0.635        # 0.635 is required to match it with empirical results (no idea why)
+RandomsScaleFactor=0.635        # 0.635 is required to match it with empirical results (no idea why. Feel free to double-check this yourself.)
 
 ## These variables change for each XCAT section run
 SectionNum=$1

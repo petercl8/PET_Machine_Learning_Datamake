@@ -15,7 +15,7 @@ QT=0	 # Enable QT visualization? To check geometry. To visualize: /vis/disable m
 StartTime=0  # Start time(s) in GATE time
 EndTime=60 # For a good CPU, 1 s simulaton takes on the order of 5 min.
 TimeSlice=1 # Duration for a single time slice. This should divide evenly into (StartTime-EndTime).
-ActivityScaleFactor=21 # Multiply activity in phantom by this scale factor. To double the number of counts in the sinogram, you can either double this scalar, or else double the acquisition time. For equal counts, you will have more randoms with a higher ACtivityScaleFactor.
+ActivityScaleFactor=21 # Multiply activity in phantom by this scale factor. To double the number of counts in the sinogram, you can either double this scalar, or else double the acquisition time. For equal counts, you will have more randoms with a higher ActivityScaleFactor.
 SaveNiftiFilesToDataset=0 # Set to 0 to only copy interfiles (and possibly ROOT files) to the Phantom Specific Dataset directory. To also copy Nifti versions of the interfiles (that one can opened in 3D Slicer), set to 1.
 SaveIntermediateFilesToDataset=0 # Save intermediate files (used in reconstructions, etc.) to dataset. This is useful for debugging.
 SaveROOTfilesToDataset=1 # Save ROOT files to dataset? ROOT files can be large, so only save them if you need them.
@@ -56,7 +56,7 @@ gender="0" #0 = male, 1 = female. This must match the gender of the phantom spec
 # large_activity_variation = +/- variation allowed in default activities larger than 10 [default: 0.75]
 # organ_symmetry_variation = +/- difference allowed between Left/Right of the same organ (ex. left kidney and right kidney).
 # normalize = normalize the XCAT phantom to clinical acquisition activity levels?
-total_activity_variation=0.25
+total_activity_variation=0.25 # Maximum allowed total activity variation
 small_activity_variation=0.75 # 0.75 # Fractional variation for small activity organs (not diseased).
 large_activity_variation=0.75 # 0.75 # Fractional variation for large activity organs (not diseased).
 organ_symmetry_variation=0.3 # 0.3  # Fractional variation for symmetrical organs (not diseased).
@@ -75,7 +75,7 @@ voxelZ=47 # number of z slices per section scanned. voxelZ = num_scanner_rings*2
 ## ---------------------
 # Path to folder holding XCAT executable and config key.
 # NRB folder with all phantom .nrb files should be in XCAT folder.
-normalize_xcat=0	# We set this equal to 0 because clinical activity levels take a prohibitively long time to run.
+normalize_xcat=0
 which_breast="1" #0 = none, 1 = both, 2 = right only, 3 = left only
 XCAT_PATH="/home/peter/software/XCAT" # Path to XCAT software. Update this for your system.
 NRB_FOLDER_NAME="xcat_adult_nrb_files" # ${XCAT_PATH}/${NRB_FOLDER_NAME} should lead to the nrb files passed to XCAT for each phantom

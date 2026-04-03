@@ -109,7 +109,6 @@ if [ $CalcACFs = 1 ]; then
 	# in cm-1
 	# <output filename > <input image file name> <template_proj_data>
 
-
 	echo "Compute attenuation coefficient factors"
 	calculate_attenuation_coefficients --ACF ${acf3d} ${atnimg} ${prompt_sinogram} # The ACFs are in sinograms with dimensions determined by scanner geometry.
 fi

@@ -63,7 +63,7 @@ VoxelisedSimulation: Main scripts for creating a voxelized phantom, running a GA
 
     Output: Files output by GATE. Created by __MAIN_SCRIPT (when run) if it does not exist.
 
-    extras: Directory which is optionally created to show intermediate results in during data corrections. Created by scripts if it does not exist when run.
+    extras: Directory which is optionally created to show intermediate results in during data corrections. Created by scripts if it does not exist when run. It is strongly recommended that the user checks intermediate results (such as scatter estimation iterations) as bad low-frequency corrections can be easy overlooked. 
 
     UnlistingTemplates: Scanner templates used when unlisting ROOT files into sinograms. Called by _RunGATEandUnlist.sh.
 

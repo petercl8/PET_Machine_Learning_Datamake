@@ -52,8 +52,8 @@ gender="0" #0 = male, 1 = female. This must match the gender of the phantom spec
 # ----------------------------------------------------------
 # Percentage variation allowed in activities of XCAT phantom organs. The average will be a clinically determined SUV for the particular organ.
 # total_activity_variation = +/- variation allowed in total sum of activities [default: 0.25]. If set to 0.25, the total activity in the phantom will vary between 75% and 125% of the default total activity.
-# small_activity_variation = +/- variation allowed in default activities smaller than 10 [default: 0.75]
-# large_activity_variation = +/- variation allowed in default activities larger than 10 [default: 0.75]
+# small_activity_variation = +/- variation allowed in default activities smaller than 2 [default: 0.75]
+# large_activity_variation = +/- variation allowed in default activities larger than or equal to 2 [default: 0.75]
 # organ_symmetry_variation = +/- difference allowed between Left/Right of the same organ (ex. left kidney and right kidney).
 # normalize = normalize the XCAT phantom to clinical acquisition activity levels?
 total_activity_variation=0.25 # Maximum allowed total activity variation

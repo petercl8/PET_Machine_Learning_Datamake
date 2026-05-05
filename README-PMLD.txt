@@ -93,7 +93,7 @@ Required software:
 -ROOT 6.30
 -Geant4 11.0.0
 -GATE 9.2 (avoid more recent versions as these lack the ability to export both prompt and delayed sinograms simultaneously)
--STIR 6.0 (more recent versions may have fewer bugs)
+-STIR 6.0 (more recent versions may have fewer bugs.)
 -parallelproj 1.8.0
 -XCAT (if generating XCAT phantoms)
 -Xmedcon 0.21.2 (file conversion from .hdr GATE output to STIR-readable interfile)

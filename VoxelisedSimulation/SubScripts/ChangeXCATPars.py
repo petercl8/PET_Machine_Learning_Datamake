@@ -67,12 +67,12 @@ def gen_value(og_value, organ, prev_value):
         min_value = og_value - float(passed_vars[4])*og_value
         max_value = og_value + float(passed_vars[4])*og_value
 
-    # Organs with default values smaller than 10
+    # Organs with default values smaller than 2
     elif og_value <= 2:
         min_value = og_value - float(passed_vars[2])*og_value
         max_value = og_value + float(passed_vars[2])*og_value 
 
-    # Organs with default values greater than 10
+    # Organs with default values greater than 2
     else: 
         min_value = og_value - float(passed_vars[3])*og_value
         max_value = og_value + float(passed_vars[3])*og_value
@@ -126,7 +126,7 @@ Items in the list to pass the script:
 3 = +/- variation allowed in default activities larger than 10 [default: 0.75]
 4 = +/- difference allowed between symmetric organs (ex. left kidney and right kidney) [default: 0.1]
 5 = max SUV of diseased tissue
-6 = fraction o diseased organs which are diseased
+6 = fraction of diseased organs which are diseased
 7 = XCAT_PATH (path to XCAT install directory)
 8 = normalize to typical whole body PET injected activity (300-400 MBq) (1) or not (0)
 '''

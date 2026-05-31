@@ -1,6 +1,6 @@
 INTRODUCTION and LICENSE
 ========================
-The PET Machine Learning Datamake (PMLD) project is a derivative work, with the STIR-GATE Connection (https://github.com/UCL/STIR-GATE-Connection) project serving as a starting point. For clarity (perhaps!), many of the original README files have been left in place. These readme files have filenames ending with '-SGC'. For example, the README-SGC.md file in this directory. These original readme files may have out-of-date information. When information conflicts, our readme files (with extensions .txt) should be preferred.
+The PET Machine Learning Datamake (PMLD) project is a derivative work, with the STIR-GATE Connection (https://github.com/UCL/STIR-GATE-Connection) project serving as a starting point. For clarity, many of the original README files have been left in place. These readme files have filenames ending with '-SGC'. For example, the README-SGC.md file in this directory. These original readme files may have out-of-date information. When information conflicts, our readme files (with extensions .txt) should be preferred.
 
 This work is is under the Apache License. All modifications are Copyright 2024 Peter Lindstrom and Evelyne Hluszok.
 

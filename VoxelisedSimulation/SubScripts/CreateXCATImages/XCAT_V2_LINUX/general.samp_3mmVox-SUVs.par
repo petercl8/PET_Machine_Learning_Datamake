@@ -342,7 +342,7 @@ white_matter_act = 3.39		# activity of remaining white matter
 grey_matter_act = 8.08		# activity of remaining grey matter 
 
 energy  = 511.0	# radionuclide energy in keV (range 1 - 40MeV, increments of 0.5 keV) ; for attn. map only
-atten_table_filename= ./SubScripts/CreateXCATImages/XCAT_V2_LINUX/atten_table.dat   # for attenuation data calculation
+atten_table_filename= {XCAT_PATH}/atten_table.dat   # for attenuation data calculation
 
 #--------------------Regional Heart Motion Defect---------------------------
 motion_defect_flag = 0	# (0 = do not include, 1 = include) regional motion abnormality in the LV as defined by heart lesion parameters see NOTE 9
@@ -366,7 +366,7 @@ y_location = 124		# y coordinate (pixels) to place lesion
 z_location = 26			# z coordinate (pixels) to place lesion 
 lesn_diameter = 0.0		# Diameter of lesion (mm)
 tumor_motion_flag = 0		# Sets tumor motion (0 = default motion based on lungs, 1 = motion defined by user curve below)
-tumor_motion_filename = ./SubScripts/CreateXCATImages/XCAT_V2_LINUX/tumor_curve.dat		# Name of user defined motion curve for tumor
+tumor_motion_filename = {XCAT_PATH}/tumor_curve.dat		# Name of user defined motion curve for tumor
 #--------------------------------------------------------------------------
 
 #---------------------Heart plaque parameters------------------------------SEE NOTE 11

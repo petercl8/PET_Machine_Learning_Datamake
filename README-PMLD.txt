@@ -97,3 +97,6 @@ Required software:
 -parallelproj 1.8.0
 -XCAT (if generating XCAT phantoms)
 -Xmedcon 0.21.2 (file conversion from .hdr GATE output to STIR-readable interfile)
+-Jupyter Notebook (most recent version is fine. Packages are installed by notebook)
+
+Please find more complete software installation instructions in INSTALLATION.md (in this directory).

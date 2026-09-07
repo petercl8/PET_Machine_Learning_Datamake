@@ -227,7 +227,22 @@ The general workflow is as follows:
 
 The central driver scripts (__MAIN_SCRIPT.sh for running a single phantom or __RunMultiplePhantoms.sh for running multiple XCAT phantoms) are the main simulation entry point in `VoxelisedSimulation`.
 
-## 6. Verification of a successful run
+## 6. Preliminary normalization scan
+
+Normalization correction requires a sinogram generated from a simulated activity cylinder with zero attenuation and matching the scanner FOV volume. You'll first need to perform such a scan using a simple STIR cylindrical phantom. This can should be:
+
+- A long-duration scan--normally several days in duration--to obtain accurate single-bin counts.
+- No scatter or random coincidences should be recorded.
+- A STIR utility is then used to estimate normalization factors through a maximum-likelihood approach by comparing the measured data to a forward projection of the ground truth activity cylinder.
+  - This calculation requires the same scanner geometry and forward projector (either parallelproj or a ray-tracing matrix) as used in later image reconstruction steps.
+  - A script to perform this calculation using STIR is found in ./DataCorrectionsComputation/EstimateGATESTIRNorm.sh
+  - The output sinogram should be placed in the appropriate locaion. 
+    Ex: ./VoxelisedSimulaiton/NormalisationInterfiles/parallelproj_D690.hs"
+        ./VoxelisedSimulaiton/NormalisationInterfiles/parallelproj_D690.v"
+
+For your convenience, our normalization interfile is included in the data repository.
+
+## 7. Verification of a successful run
 
 A successful dataset-generation run should produce the expected simulation outputs, including:
 
@@ -239,7 +254,7 @@ A successful dataset-generation run should produce the expected simulation outpu
 - reconstruction outputs (FORE and 3D OSEM);
 - log files
 
-## 7. Post-processing and dataset assembly
+## 8. Post-processing and dataset assembly
 
 The project includes a Jupyter notebook for post-processing. The notebook contains code for:
 
@@ -271,7 +286,7 @@ phantom_list = train_codes  # or validation_codes, test_codes
 
 Run the cell to generate the requested split.
 
-## 8. Summary
+## 9. Summary
 
 The key reproducibility requirement is not simply that the software be installed, but that the environment be configured with the same versions and project-path settings used in the original development workflow. In particular, the user must ensure that:
 

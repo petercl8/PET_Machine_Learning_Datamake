@@ -240,7 +240,7 @@ Normalization correction requires a sinogram generated from a simulated activity
     Ex: ./VoxelisedSimulaiton/NormalisationInterfiles/parallelproj_D690.hs"
         ./VoxelisedSimulaiton/NormalisationInterfiles/parallelproj_D690.v"
 
-For your convenience, our normalization interfile is included in the data repository.
+For your convenience, our normalization interfiles are also included in the data repository.
 
 ## 7. Verification of a successful run
 

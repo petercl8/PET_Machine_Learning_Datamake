@@ -100,3 +100,7 @@ Required software:
 -Jupyter Notebook (most recent version is fine. Packages are installed by notebook)
 
 Please find more complete software installation instructions in INSTALLATION.md (in this directory).
+
+PRE-RUN DATA REPOSITORY
+=======================
+A full set of pre-run data is available from the IEEE DataPort Repository, DOI: 10.21227/h3b4-nt35
